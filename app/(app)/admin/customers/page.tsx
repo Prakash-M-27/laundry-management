@@ -1,16 +1,18 @@
 'use client'
 
 import React, { useState } from 'react'
-import { CUSTOMERS, ORDERS } from '@/lib/mock-data'
+import { CUSTOMERS } from '@/lib/mock-data'
+import { useOrders } from '@/lib/order-context'
 import { Card } from '@/components/ui/card'
 import { ChevronDown, ChevronUp, Search, Users } from 'lucide-react'
 
 export default function CustomersPage() {
   const [expandedCustomer, setExpandedCustomer] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const { orders } = useOrders()
 
   const customersWithStats = CUSTOMERS.map(customer => {
-    const customerOrders = ORDERS.filter(o => o.customerId === customer.id)
+    const customerOrders = orders.filter(o => o.customerId === customer.id)
     const lastOrder = [...customerOrders].sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     )[0]
@@ -30,7 +32,7 @@ export default function CustomersPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-card border-b border-border px-4 sm:px-6 lg:px-8 py-6">
+      <div className="bg-white border-b border-border px-4 sm:px-6 lg:px-8 py-6">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold text-foreground">Customers</h1>
@@ -43,7 +45,7 @@ export default function CustomersPage() {
               placeholder="Search customers…"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-xl border border-border bg-card text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition"
+              className="w-full pl-9 pr-4 py-2 rounded-xl border border-border bg-white text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition"
             />
           </div>
         </div>
@@ -51,13 +53,13 @@ export default function CustomersPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 bg-card rounded-xl border border-border">
+          <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl border border-border shadow-sm">
             <Users className="h-10 w-10 text-muted-foreground mb-3" />
             <p className="text-sm text-muted-foreground">No customers found</p>
           </div>
         ) : (
           <>
-            <div className="hidden md:block bg-card rounded-xl border border-border overflow-hidden">
+            <div className="hidden md:block bg-white rounded-xl border border-border shadow-sm overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="bg-muted border-b border-border">
                   <tr>
@@ -75,7 +77,7 @@ export default function CustomersPage() {
                       >
                         <td className="px-5 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center text-xs font-bold text-muted-foreground flex-shrink-0">
+                            <div className="h-8 w-8 rounded-full bg-primary/5 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0">
                               {customer.name.charAt(0)}
                             </div>
                             <div>
@@ -86,7 +88,7 @@ export default function CustomersPage() {
                         </td>
                         <td className="px-5 py-4 text-foreground text-sm">{customer.phone}</td>
                         <td className="px-5 py-4">
-                          <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-muted text-xs font-bold text-foreground">
+                          <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-primary/5 text-xs font-bold text-primary">
                             {customer.orderCount}
                           </span>
                         </td>
@@ -116,13 +118,13 @@ export default function CustomersPage() {
               {filtered.map(customer => (
                 <Card
                   key={customer.id}
-                  className="bg-card border-border cursor-pointer"
+                  className="bg-white border-border shadow-sm cursor-pointer"
                   onClick={() => setExpandedCustomer(expandedCustomer === customer.id ? null : customer.id)}
                 >
                   <div className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="h-9 w-9 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground">
+                        <div className="h-9 w-9 rounded-full bg-primary/5 flex items-center justify-center text-sm font-bold text-primary">
                           {customer.name.charAt(0)}
                         </div>
                         <div>

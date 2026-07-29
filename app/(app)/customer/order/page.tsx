@@ -14,10 +14,10 @@ export default function OrderPage() {
     return (
       <div className="h-full overflow-y-auto">
         <div className="p-4 md:p-8 flex items-center justify-center min-h-screen">
-          <Card className="w-full max-w-md bg-card border-border">
+          <Card className="w-full max-w-md bg-white border-border shadow-lg">
             <CardContent className="pt-8 text-center">
               <div className="flex justify-center mb-4">
-                <div className="p-4 rounded-full bg-primary/10">
+                <div className="p-4 rounded-full bg-primary/5">
                   <CheckCircle className="h-12 w-12 text-primary" />
                 </div>
               </div>
@@ -27,7 +27,7 @@ export default function OrderPage() {
                 Your order has been placed successfully. You can track it in real-time.
               </p>
 
-              <div className="bg-muted rounded-lg p-4 mb-6 text-left">
+              <div className="bg-muted rounded-lg p-4 mb-6 text-left border border-border">
                 <p className="text-sm text-muted-foreground mb-1">Order ID</p>
                 <p className="font-mono font-semibold text-foreground">ORD_00{Math.floor(Math.random() * 1000)}</p>
               </div>

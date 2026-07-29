@@ -5,6 +5,7 @@ import { SERVICES, CUSTOMERS } from '@/lib/mock-data'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useOrders } from '@/lib/order-context'
 
 type Step = 'services' | 'pickup' | 'datetime' | 'summary'
 
@@ -23,6 +24,7 @@ interface OrderFormData {
 }
 
 export function OrderForm({ onComplete }: { onComplete?: () => void }) {
+  const { addOrder } = useOrders()
   const [currentStep, setCurrentStep] = useState<Step>('services')
   const [formData, setFormData] = useState<OrderFormData>({
     services: [],
@@ -74,7 +76,7 @@ export function OrderForm({ onComplete }: { onComplete?: () => void }) {
               <h3 className="font-semibold text-foreground mb-4">Select Services</h3>
               <div className="space-y-3">
                 {SERVICES.map((service) => (
-                  <div key={service.id} className="flex items-center justify-between p-3 border border-border rounded-lg">
+                  <div key={service.id} className="flex items-center justify-between p-3 border border-border rounded-lg bg-white">
                     <div className="flex-1">
                       <p className="font-medium text-foreground">{service.name}</p>
                       <p className="text-sm text-muted-foreground">
@@ -86,7 +88,7 @@ export function OrderForm({ onComplete }: { onComplete?: () => void }) {
                         onClick={() =>
                           handleServiceToggle(service.id, (quantities[service.id] || 0) - 1)
                         }
-                        className="px-2 py-1 rounded border border-border hover:bg-muted text-foreground"
+                        className="px-2 py-1 rounded border border-border hover:bg-muted text-foreground bg-white"
                       >
                         −
                       </button>
@@ -97,7 +99,7 @@ export function OrderForm({ onComplete }: { onComplete?: () => void }) {
                         onClick={() =>
                           handleServiceToggle(service.id, (quantities[service.id] || 0) + 1)
                         }
-                        className="px-2 py-1 rounded border border-border hover:bg-muted text-foreground"
+                        className="px-2 py-1 rounded border border-border hover:bg-muted text-foreground bg-white"
                       >
                         +
                       </button>
@@ -155,7 +157,7 @@ export function OrderForm({ onComplete }: { onComplete?: () => void }) {
                   onChange={(e) =>
                     setFormData({ ...formData, pickupAddress: e.target.value })
                   }
-                  className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 >
                   <option value="">Select an address</option>
                   {CUSTOMERS[0].addresses.map((addr) => (
@@ -183,7 +185,7 @@ export function OrderForm({ onComplete }: { onComplete?: () => void }) {
                   setFormData({ ...formData, pickupDate: e.target.value })
                 }
                 min={new Date().toISOString().split('T')[0]}
-                className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
               />
             </div>
 
@@ -196,7 +198,7 @@ export function OrderForm({ onComplete }: { onComplete?: () => void }) {
                 onChange={(e) =>
                   setFormData({ ...formData, pickupTimeSlot: e.target.value })
                 }
-                className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
               >
                 <option value="">Select a time slot</option>
                 {TIME_SLOTS.map((slot) => (
@@ -288,6 +290,17 @@ export function OrderForm({ onComplete }: { onComplete?: () => void }) {
     else if (currentStep === 'pickup') setCurrentStep('datetime')
     else if (currentStep === 'datetime') setCurrentStep('summary')
     else if (currentStep === 'summary') {
+      const customer = CUSTOMERS[0]
+      addOrder({
+        id: '',
+        customerId: customer.id,
+        customerName: customer.name,
+        customerPhone: customer.phone,
+        slotId: `slot_manual_${Date.now()}`,
+        bookingDate: formData.pickupDate,
+        bookingTime: formData.pickupTimeSlot,
+        estimatedPrice: calculateTotal(),
+      })
       onComplete?.()
     }
   }
@@ -315,7 +328,7 @@ export function OrderForm({ onComplete }: { onComplete?: () => void }) {
         ))}
       </div>
 
-      <Card className="bg-card border-border mb-6">
+      <Card className="bg-white border-border shadow-sm mb-6">
         <CardHeader>
           <CardTitle className="capitalize">
             {currentStep === 'services' && 'Select Services'}

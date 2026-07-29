@@ -1,20 +1,22 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ORDERS, OrderStatus, ORDER_STATUS_COLORS } from '@/lib/mock-data'
+import { OrderStatus, ORDER_STATUS_COLORS } from '@/lib/mock-data'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { useOrders } from '@/lib/order-context'
 import { ChevronDown, ChevronUp, Package } from 'lucide-react'
 
 type FilterStatus = OrderStatus | 'all'
 
 export default function AdminOrdersPage() {
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all')
+  const { orders } = useOrders()
 
   const filteredOrders =
     filterStatus === 'all'
-      ? ORDERS
-      : ORDERS.filter((o) => o.status === filterStatus)
+      ? orders
+      : orders.filter((o) => o.status === filterStatus)
 
   return (
     <div className="h-full overflow-y-auto">
@@ -26,7 +28,7 @@ export default function AdminOrdersPage() {
 
         <div className="flex gap-2 flex-wrap">
           {(['all', 'booked', 'received', 'processing', 'ready', 'completed'] as const).map((status) => {
-            const count = status === 'all' ? ORDERS.length : ORDERS.filter((o) => o.status === status).length
+            const count = status === 'all' ? orders.length : orders.filter((o) => o.status === status).length
             const isActive = filterStatus === status
             return (
               <Button
@@ -44,7 +46,7 @@ export default function AdminOrdersPage() {
 
         <div className="space-y-3">
           {filteredOrders.length === 0 ? (
-            <Card className="bg-card border-border text-center py-12">
+            <Card className="bg-white border-border shadow-sm text-center py-12">
               <CardContent>
                 <Package className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground">No orders match this filter</p>
@@ -52,11 +54,11 @@ export default function AdminOrdersPage() {
             </Card>
           ) : (
             filteredOrders.map((order) => (
-              <Card key={order.id} className="bg-card border-border">
+              <Card key={order.id} className="bg-white border-border shadow-sm">
                 <div className="px-4 sm:px-6 py-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground">
+                      <div className="h-8 w-8 rounded-lg bg-primary/5 flex items-center justify-center text-primary">
                         <Package className="h-4 w-4" />
                       </div>
                       <div>

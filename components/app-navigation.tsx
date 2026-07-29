@@ -50,7 +50,7 @@ export function AppNavigation() {
     ]
 
     return (
-      <nav className="sticky top-0 z-40 w-full border-b border-border bg-card shadow-sm">
+      <nav className="sticky top-0 z-40 w-full border-b border-border bg-white shadow-sm">
         <div className="flex items-center justify-between px-4 sm:px-6 py-3">
           <div className="flex items-center gap-2.5">
             <button
@@ -59,7 +59,7 @@ export function AppNavigation() {
             >
               {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <div className="p-1.5 rounded-lg bg-[#0A0D10]">
+            <div className="p-1.5 rounded-lg bg-primary">
               <Droplets className="h-4 w-4 text-white" />
             </div>
             <span className="text-base font-bold text-foreground tracking-tight">QuickWash</span>
@@ -74,7 +74,7 @@ export function AppNavigation() {
                   href={link.href}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'text-primary bg-primary/10'
+                      ? 'text-primary bg-primary/5'
                       : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                   }`}
                 >
@@ -88,13 +88,13 @@ export function AppNavigation() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleRoleSwitch}
-              className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:bg-muted transition font-medium"
+              className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:bg-muted hover:text-foreground transition font-medium"
             >
               Admin
             </button>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg text-muted-foreground hover:bg-muted transition font-medium"
+              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition font-medium"
               title="Logout"
             >
               <LogOut className="h-3.5 w-3.5" />
@@ -105,7 +105,7 @@ export function AppNavigation() {
 
         {sidebarOpen && (
           <>
-            <div className="md:hidden border-t border-border px-4 py-2 space-y-1 bg-card">
+            <div className="md:hidden border-t border-border px-4 py-2 space-y-1 bg-white shadow-lg">
               {customerLinks.map(link => {
                 const isActive = pathname === link.href
                 return (
@@ -115,7 +115,7 @@ export function AppNavigation() {
                     onClick={() => setSidebarOpen(false)}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                       isActive
-                        ? 'text-primary bg-primary/10'
+                        ? 'text-primary bg-primary/5'
                         : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                     }`}
                   >
@@ -125,7 +125,7 @@ export function AppNavigation() {
                 )
               })}
             </div>
-            <div className="fixed inset-0 bg-black/20 z-[-1] md:hidden" onClick={() => setSidebarOpen(false)} />
+            <div className="fixed inset-0 bg-gray-900/20 z-[-1] md:hidden" onClick={() => setSidebarOpen(false)} />
           </>
         )}
       </nav>
@@ -142,7 +142,7 @@ export function AppNavigation() {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 border-b border-border bg-card">
+      <nav className="sticky top-0 z-40 border-b border-border bg-white">
         <div className="flex items-center justify-between px-4 sm:px-6 py-3">
           <div className="flex items-center gap-2.5">
             <button
@@ -151,7 +151,7 @@ export function AppNavigation() {
             >
               {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <div className="p-1.5 rounded-lg bg-[#0A0D10]">
+            <div className="p-1.5 rounded-lg bg-primary">
               <Droplets className="h-4 w-4 text-white" />
             </div>
             <div>
@@ -163,13 +163,13 @@ export function AppNavigation() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleRoleSwitch}
-              className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:bg-muted transition font-medium"
+              className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:bg-muted hover:text-foreground transition font-medium"
             >
               Customer View
             </button>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg text-muted-foreground hover:bg-muted transition font-medium"
+              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition font-medium"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Sign out</span>
@@ -182,7 +182,7 @@ export function AppNavigation() {
         <aside
           className={`${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } md:translate-x-0 fixed md:relative w-56 bg-sidebar text-sidebar-foreground transition-transform duration-200 ease-in-out z-30 h-full flex flex-col`}
+          } md:translate-x-0 fixed md:relative w-56 bg-sidebar text-sidebar-foreground transition-transform duration-200 ease-in-out z-30 h-full flex flex-col border-r border-sidebar-border`}
         >
           <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
             {adminLinks.map(link => {
@@ -194,11 +194,11 @@ export function AppNavigation() {
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                      : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                      ? 'bg-primary/5 text-primary font-semibold'
+                      : 'text-sidebar-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
-                  <span className={isActive ? 'text-primary' : 'text-sidebar-foreground/50'}>{link.icon}</span>
+                  <span className={isActive ? 'text-primary' : 'text-muted-foreground'}>{link.icon}</span>
                   {link.label}
                   {isActive && <ChevronRight className="h-3.5 w-3.5 ml-auto text-primary" />}
                 </Link>
@@ -208,12 +208,12 @@ export function AppNavigation() {
 
           <div className="p-3 border-t border-sidebar-border">
             <div className="flex items-center gap-2.5 px-3 py-2">
-              <div className="h-7 w-7 rounded-full bg-sidebar-accent flex items-center justify-center text-xs font-bold text-sidebar-accent-foreground">
+              <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
                 A
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-sidebar-foreground truncate">Admin</p>
-                <p className="text-xs text-sidebar-foreground/50 truncate">shop@laundry.com</p>
+                <p className="text-xs font-semibold text-foreground truncate">Admin</p>
+                <p className="text-xs text-muted-foreground truncate">shop@laundry.com</p>
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@ export function AppNavigation() {
 
         {sidebarOpen && (
           <div
-            className="fixed inset-0 md:hidden bg-black/40 z-20"
+            className="fixed inset-0 md:hidden bg-gray-900/30 z-20"
             onClick={() => setSidebarOpen(false)}
           />
         )}

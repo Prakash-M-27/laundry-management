@@ -1,19 +1,21 @@
 'use client'
 
-import { ORDERS, CUSTOMERS, ORDER_STATUS_COLORS } from '@/lib/mock-data'
+import { CUSTOMERS, ORDER_STATUS_COLORS } from '@/lib/mock-data'
+import { useOrders } from '@/lib/order-context'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { ShoppingBag, Users, DollarSign, CheckCircle, TrendingUp, ArrowRight, Clock } from 'lucide-react'
 
 export default function AdminDashboard() {
-  const bookedOrders = ORDERS.filter(o => o.status === 'booked').length
-  const inProgressOrders = ORDERS.filter(o => ['received', 'processing'].includes(o.status)).length
-  const completedOrders = ORDERS.filter(o => o.status === 'completed').length
-  const totalRevenue = ORDERS.filter(o => o.status === 'completed')
+  const { orders } = useOrders()
+  const bookedOrders = orders.filter(o => o.status === 'booked').length
+  const inProgressOrders = orders.filter(o => ['received', 'processing'].includes(o.status)).length
+  const completedOrders = orders.filter(o => o.status === 'completed').length
+  const totalRevenue = orders.filter(o => o.status === 'completed')
     .reduce((sum, o) => sum + (o.actualPrice || o.estimatedPrice), 0)
 
-  const recentOrders = [...ORDERS]
+  const recentOrders = [...orders]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 6)
 
@@ -32,7 +34,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-card border-b border-border px-4 sm:px-6 lg:px-8 py-6">
+      <div className="bg-white border-b border-border px-4 sm:px-6 lg:px-8 py-6">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-xl font-bold text-foreground">Dashboard</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Overview of your laundry shop</p>
@@ -43,9 +45,9 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map(stat => (
             <Link key={stat.label} href={stat.href}>
-              <Card className="p-4 bg-card border-border hover:shadow-md transition-shadow cursor-pointer group">
+              <Card className="p-4 bg-white border-border shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
                 <div className="flex items-start justify-between">
-                  <div className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center text-muted-foreground group-hover:bg-foreground group-hover:text-background transition-colors">
+                  <div className="h-9 w-9 rounded-lg bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                     {stat.icon}
                   </div>
                   <ArrowRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
@@ -62,8 +64,8 @@ export default function AdminDashboard() {
           <div className="grid sm:grid-cols-3 gap-3">
             {quickActions.map(action => (
               <Link key={action.label} href={action.href}>
-                <Card className="p-4 bg-card border-border hover:shadow-md transition-shadow cursor-pointer group flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-muted flex items-center justify-center text-muted-foreground group-hover:bg-foreground group-hover:text-background transition-colors flex-shrink-0">
+                <Card className="p-4 bg-white border-border shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors flex-shrink-0">
                     {action.icon}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -80,11 +82,11 @@ export default function AdminDashboard() {
         <div>
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Recent Orders</h2>
-            <Link href="/admin/orders" className="text-xs font-medium text-muted-foreground hover:text-foreground transition flex items-center gap-1">
+            <Link href="/admin/orders" className="text-xs font-medium text-primary hover:text-primary/80 transition flex items-center gap-1">
               View all <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
-          <Card className="bg-card border-border overflow-hidden">
+          <Card className="bg-white border-border shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-muted border-b border-border">

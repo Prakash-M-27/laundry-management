@@ -19,7 +19,7 @@ export default function ProfilePage() {
           <p className="text-muted-foreground">Manage your account information</p>
         </div>
 
-        <Card className="bg-card border-border">
+        <Card className="bg-white border-border shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span>Personal Information</span>
@@ -39,7 +39,7 @@ export default function ProfilePage() {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                 </div>
                 <div className="flex gap-2">
@@ -72,7 +72,7 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-border">
+        <Card className="bg-white border-border shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {customer.addresses.map((address) => (
-              <div key={address.id} className="p-4 rounded-lg border border-border bg-muted/50">
+              <div key={address.id} className="p-4 rounded-lg border border-border bg-white shadow-sm">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     {address.type === 'home' ? (
@@ -98,7 +98,7 @@ export default function ProfilePage() {
                     <p className="font-semibold text-foreground capitalize">
                       {address.type}
                       {address.default && (
-                        <span className="text-xs bg-foreground text-background ml-2 px-2 py-0.5 rounded">
+                        <span className="text-xs bg-primary text-primary-foreground ml-2 px-2 py-0.5 rounded">
                           Default
                         </span>
                       )}
@@ -114,7 +114,7 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-border">
+        <Card className="bg-white border-border shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span className="flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {customer.paymentMethods.map((method) => (
-              <div key={method.id} className="p-4 rounded-lg border border-border bg-muted/50 flex items-center justify-between">
+              <div key={method.id} className="p-4 rounded-lg border border-border bg-white shadow-sm flex items-center justify-between">
                 <div>
                   <p className="font-semibold text-foreground">
                     {method.type} ••••{method.last4}
@@ -147,7 +147,7 @@ export default function ProfilePage() {
         </Card>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardContent className="pt-6">
               <div className="flex items-center gap-2 mb-1">
                 <Package className="h-4 w-4 text-muted-foreground" />
@@ -156,7 +156,7 @@ export default function ProfilePage() {
               <p className="text-3xl font-bold text-foreground">{customer.totalOrders}</p>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardContent className="pt-6">
               <div className="flex items-center gap-2 mb-1">
                 <User className="h-4 w-4 text-muted-foreground" />

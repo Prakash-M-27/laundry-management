@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Calendar, Clock, CheckCircle2, ChevronRight } from 'lucide-react'
-import { AVAILABLE_SLOTS, SHOP_INFO } from '@/lib/mock-data'
+import { AVAILABLE_SLOTS, SHOP_INFO, CUSTOMERS } from '@/lib/mock-data'
+import { useOrders } from '@/lib/order-context'
 
 interface SlotBookingProps {
   onBookingComplete?: (slotId: string, date: string, time: string) => void
@@ -14,6 +15,7 @@ export function SlotBooking({ onBookingComplete }: SlotBookingProps) {
   const [selectedSlot, setSelectedSlot] = useState<string>('')
   const [bookingConfirmed, setBookingConfirmed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const { addOrder } = useOrders()
 
   const uniqueDates = Array.from(new Set(AVAILABLE_SLOTS.map(s => s.date))).sort()
   const slotsForDate = selectedDate ? AVAILABLE_SLOTS.filter(s => s.date === selectedDate) : []
@@ -24,6 +26,17 @@ export function SlotBooking({ onBookingComplete }: SlotBookingProps) {
     if (!slot) return
     setIsLoading(true)
     await new Promise(r => setTimeout(r, 700))
+    const customer = CUSTOMERS[0]
+    addOrder({
+      id: '',
+      customerId: customer.id,
+      customerName: customer.name,
+      customerPhone: customer.phone,
+      slotId: slot.id,
+      bookingDate: slot.date,
+      bookingTime: slot.time,
+      estimatedPrice: SHOP_INFO.estimatedPrice,
+    })
     setIsLoading(false)
     setBookingConfirmed(true)
     onBookingComplete?.(slot.id, slot.date, slot.time)
@@ -70,13 +83,13 @@ export function SlotBooking({ onBookingComplete }: SlotBookingProps) {
                 onClick={() => { setSelectedDate(date); setSelectedSlot('') }}
                 className={`p-3 rounded-xl border-2 transition-all text-center ${
                   isSelected
-                    ? 'border-foreground bg-foreground text-background'
-                    : 'border-border bg-card text-foreground hover:border-muted-foreground/30'
+                    ? 'border-primary bg-primary text-primary-foreground'
+                    : 'border-border bg-white text-foreground hover:border-muted-foreground/30'
                 }`}
               >
-                <p className={`text-xs font-medium ${isSelected ? 'text-background/70' : 'text-muted-foreground'}`}>{day}</p>
-                <p className={`text-lg font-bold leading-tight ${isSelected ? 'text-background' : 'text-foreground'}`}>{num}</p>
-                <p className={`text-xs ${isSelected ? 'text-background/70' : 'text-muted-foreground'}`}>{mon}</p>
+                <p className={`text-xs font-medium ${isSelected ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>{day}</p>
+                <p className={`text-lg font-bold leading-tight ${isSelected ? 'text-primary-foreground' : 'text-foreground'}`}>{num}</p>
+                <p className={`text-xs ${isSelected ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>{mon}</p>
               </button>
             )
           })}
@@ -101,17 +114,17 @@ export function SlotBooking({ onBookingComplete }: SlotBookingProps) {
                     !slot.available
                       ? 'border-border bg-muted text-muted-foreground/40 cursor-not-allowed'
                       : isSelected
-                        ? 'border-foreground bg-foreground text-background'
-                        : 'border-border bg-card text-foreground hover:border-muted-foreground/30'
+                        ? 'border-primary bg-primary text-primary-foreground'
+                        : 'border-border bg-white text-foreground hover:border-muted-foreground/30'
                   }`}
                 >
                   <div>
-                    <p className={`text-sm font-semibold ${isSelected ? 'text-background' : ''}`}>{slot.time}</p>
+                    <p className={`text-sm font-semibold ${isSelected ? 'text-primary-foreground' : ''}`}>{slot.time}</p>
                     {!slot.available && <p className="text-xs text-muted-foreground/60 mt-0.5">Fully booked</p>}
                     {slot.available && !isSelected && <p className="text-xs text-muted-foreground mt-0.5">Available</p>}
-                    {isSelected && <p className="text-xs text-background/70 mt-0.5">Selected</p>}
+                    {isSelected && <p className="text-xs text-primary-foreground/70 mt-0.5">Selected</p>}
                   </div>
-                  {isSelected && <CheckCircle2 className="h-4 w-4 text-background flex-shrink-0" />}
+                  {isSelected && <CheckCircle2 className="h-4 w-4 text-primary-foreground flex-shrink-0" />}
                 </button>
               )
             })}
@@ -120,7 +133,7 @@ export function SlotBooking({ onBookingComplete }: SlotBookingProps) {
       )}
 
       {selectedSlot && selectedSlotData && (
-        <div className="bg-muted rounded-xl border border-border p-4">
+        <div className="bg-white rounded-xl border border-border shadow-sm p-4">
           <h4 className="text-sm font-semibold text-foreground mb-3">Booking Summary</h4>
           <div className="space-y-2 text-sm mb-4">
             <div className="flex justify-between">

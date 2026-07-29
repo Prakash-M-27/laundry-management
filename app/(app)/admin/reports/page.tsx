@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import { REVENUE_DATA, ORDERS } from '@/lib/mock-data'
+import { REVENUE_DATA } from '@/lib/mock-data'
+import { useOrders } from '@/lib/order-context'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import {
   ChartContainer,
@@ -20,15 +21,16 @@ import {
 } from 'recharts'
 
 const chartConfig = {
-  revenue: { label: 'Revenue', color: '#FF6A00' },
-  orders: { label: 'Orders', color: '#1C1F24' },
+  revenue: { label: 'Revenue', color: '#2563EB' },
+  orders: { label: 'Orders', color: '#8B5CF6' },
 }
 
 export default function ReportsPage() {
+  const { orders } = useOrders()
   const totalRevenue = REVENUE_DATA.reduce((sum, d) => sum + d.revenue, 0)
-  const totalOrders = ORDERS.length
+  const totalOrders = orders.length
   const avgOrderValue = totalOrders > 0 ? (totalRevenue / totalOrders).toFixed(2) : '0'
-  const completedOrders = ORDERS.filter((o) => o.status === 'completed').length
+  const completedOrders = orders.filter((o) => o.status === 'completed').length
 
   const serviceBreakdown = [
     { name: 'Wash & Fold', count: 28, revenue: 1400 },
@@ -51,46 +53,46 @@ export default function ReportsPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground mb-2">Total Revenue</p>
               <div className="flex items-end justify-between">
                 <p className="text-3xl font-bold text-foreground">₹{totalRevenue}</p>
-                <span className="text-xs text-green-600 font-semibold">+12.5%</span>
+                <span className="text-xs text-emerald-600 font-semibold">+12.5%</span>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground mb-2">Total Orders</p>
               <div className="flex items-end justify-between">
                 <p className="text-3xl font-bold text-foreground">{totalOrders}</p>
-                <span className="text-xs text-green-600 font-semibold">+8.2%</span>
+                <span className="text-xs text-emerald-600 font-semibold">+8.2%</span>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground mb-2">Avg Order Value</p>
               <div className="flex items-end justify-between">
                 <p className="text-3xl font-bold text-foreground">₹{avgOrderValue}</p>
-                <span className="text-xs text-green-600 font-semibold">+5.1%</span>
+                <span className="text-xs text-emerald-600 font-semibold">+5.1%</span>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground mb-2">Completed Orders</p>
               <div className="flex items-end justify-between">
                 <p className="text-3xl font-bold text-foreground">{completedOrders}</p>
-                <span className="text-xs text-green-600 font-semibold">+3.2%</span>
+                <span className="text-xs text-emerald-600 font-semibold">+3.2%</span>
               </div>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardHeader>
               <CardTitle>Revenue Trend</CardTitle>
               <CardDescription>Daily revenue over the last 12 days</CardDescription>
@@ -98,18 +100,18 @@ export default function ReportsPage() {
             <CardContent>
               <ChartContainer config={chartConfig} className="h-80 w-full">
                 <LineChart data={REVENUE_DATA}>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                  <XAxis dataKey="date" className="text-xs" tick={{ fill: '#8A8F98' }} />
-                  <YAxis tick={{ fill: '#8A8F98' }} />
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                  <XAxis dataKey="date" className="text-xs" tick={{ fill: '#6B7280' }} />
+                  <YAxis tick={{ fill: '#6B7280' }} />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Legend wrapperStyle={{ paddingTop: '20px' }} />
-                  <Line type="monotone" dataKey="revenue" stroke="#FF6A00" strokeWidth={2} dot={{ fill: '#FF6A00', r: 4 }} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="revenue" stroke="#2563EB" strokeWidth={2} dot={{ fill: '#2563EB', r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ChartContainer>
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardHeader>
               <CardTitle>Order Volume</CardTitle>
               <CardDescription>Daily orders over the last 12 days</CardDescription>
@@ -117,12 +119,12 @@ export default function ReportsPage() {
             <CardContent>
               <ChartContainer config={chartConfig} className="h-80 w-full">
                 <BarChart data={REVENUE_DATA}>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                  <XAxis dataKey="date" className="text-xs" tick={{ fill: '#8A8F98' }} />
-                  <YAxis tick={{ fill: '#8A8F98' }} />
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                  <XAxis dataKey="date" className="text-xs" tick={{ fill: '#6B7280' }} />
+                  <YAxis tick={{ fill: '#6B7280' }} />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Legend wrapperStyle={{ paddingTop: '20px' }} />
-                  <Bar dataKey="orders" fill="#1C1F24" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="orders" fill="#8B5CF6" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ChartContainer>
             </CardContent>
@@ -130,7 +132,7 @@ export default function ReportsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardHeader>
               <CardTitle>Service Performance</CardTitle>
               <CardDescription>Orders and revenue by service type</CardDescription>
@@ -138,7 +140,7 @@ export default function ReportsPage() {
             <CardContent>
               <div className="space-y-4">
                 {serviceBreakdown.map((service) => (
-                  <div key={service.name} className="flex items-center justify-between p-3 rounded-lg bg-muted">
+                  <div key={service.name} className="flex items-center justify-between p-3 rounded-lg bg-muted border border-border">
                     <div className="flex-1">
                       <p className="font-semibold text-foreground">{service.name}</p>
                       <p className="text-sm text-muted-foreground">{service.count} orders</p>
@@ -150,7 +152,7 @@ export default function ReportsPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardHeader>
               <CardTitle>Payment Methods</CardTitle>
               <CardDescription>Breakdown by payment method</CardDescription>
@@ -158,7 +160,7 @@ export default function ReportsPage() {
             <CardContent>
               <div className="space-y-4">
                 {paymentMethodBreakdown.map((payment) => (
-                  <div key={payment.name} className="flex items-center justify-between p-3 rounded-lg bg-muted">
+                  <div key={payment.name} className="flex items-center justify-between p-3 rounded-lg bg-muted border border-border">
                     <div className="flex-1">
                       <p className="font-semibold text-foreground">{payment.name}</p>
                       <p className="text-sm text-muted-foreground">{payment.count} orders</p>
@@ -174,7 +176,7 @@ export default function ReportsPage() {
           </Card>
         </div>
 
-        <Card className="bg-card border-border">
+        <Card className="bg-white border-border shadow-sm">
           <CardHeader>
             <CardTitle>Summary Statistics</CardTitle>
           </CardHeader>

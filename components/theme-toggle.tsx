@@ -7,14 +7,8 @@ export function ThemeToggle() {
   const [dark, setDark] = useState(false)
 
   useEffect(() => {
-    const stored = localStorage.getItem('theme')
-    if (stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-      setDark(true)
-    } else {
-      document.documentElement.classList.remove('dark')
-      setDark(false)
-    }
+    document.documentElement.classList.remove('dark')
+    setDark(false)
   }, [])
 
   function toggle() {
@@ -27,7 +21,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="h-8 w-8 rounded-lg border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 transition-all"
+      className="h-8 w-8 rounded-lg border border-border bg-white flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 transition-all"
       aria-label="Toggle theme"
     >
       {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

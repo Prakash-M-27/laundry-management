@@ -58,7 +58,7 @@ export function OrderStepper({ order }: { order: Order }) {
   const currentStatusIndex = allStatuses.indexOf(mappedStatus)
 
   return (
-    <Card className="bg-card border-border">
+    <Card className="bg-white border-border shadow-sm">
       <CardContent className="pt-6">
         <div className="hidden md:block">
           <div className="flex justify-between items-center relative">
@@ -95,7 +95,7 @@ export function OrderStepper({ order }: { order: Order }) {
                   {index < allStatuses.length - 1 && (
                     <div
                       className={`absolute top-6 left-[calc(50%+1.5rem)] right-[calc(-50%+1.5rem)] h-0.5 ${
-                        index < currentStatusIndex ? 'bg-foreground' : 'bg-muted'
+                        index < currentStatusIndex ? 'bg-primary' : 'bg-muted'
                       }`}
                     />
                   )}
@@ -126,7 +126,7 @@ export function OrderStepper({ order }: { order: Order }) {
                   {index < allStatuses.length - 1 && (
                     <div
                       className={`w-0.5 flex-1 mt-2 rounded-full ${
-                        index < currentStatusIndex ? 'bg-foreground' : 'bg-muted'
+                        index < currentStatusIndex ? 'bg-primary' : 'bg-muted'
                       }`}
                       style={{ minHeight: '60px' }}
                     />

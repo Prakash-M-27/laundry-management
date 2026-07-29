@@ -87,7 +87,7 @@ export default function ServicesPage() {
         </div>
 
         {showForm && (
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardHeader>
               <CardTitle>{editingId ? 'Edit Service' : 'Add New Service'}</CardTitle>
             </CardHeader>
@@ -99,7 +99,7 @@ export default function ServicesPage() {
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     required
                   />
                 </div>
@@ -109,7 +109,7 @@ export default function ServicesPage() {
                     <select
                       value={formData.category}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value as ServiceCategory })}
-                      className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     >
                       <option>Wash & Fold</option>
                       <option>Dry Clean</option>
@@ -124,7 +124,7 @@ export default function ServicesPage() {
                       value={formData.unit}
                       onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
                       placeholder="e.g., kg, piece, pair"
-                      className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                       required
                     />
                   </div>
@@ -137,7 +137,7 @@ export default function ServicesPage() {
                     onChange={(e) => setFormData({ ...formData, pricePerUnit: e.target.value })}
                     step="0.01"
                     min="0"
-                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     required
                   />
                 </div>
@@ -147,7 +147,7 @@ export default function ServicesPage() {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={3}
-                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     required
                   />
                 </div>
@@ -160,15 +160,15 @@ export default function ServicesPage() {
           </Card>
         )}
 
-        <div className="hidden md:block border border-border rounded-lg overflow-hidden bg-card">
+        <div className="hidden md:block border border-border rounded-lg overflow-hidden bg-white shadow-sm">
           <table className="w-full">
             <thead className="bg-muted border-b border-border">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Service</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Category</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Price</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Unit</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Service</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Price</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Unit</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -199,7 +199,7 @@ export default function ServicesPage() {
 
         <div className="md:hidden space-y-4">
           {services.map((service) => (
-            <Card key={service.id} className="bg-card border-border">
+            <Card key={service.id} className="bg-white border-border shadow-sm">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base">{service.name}</CardTitle>
               </CardHeader>

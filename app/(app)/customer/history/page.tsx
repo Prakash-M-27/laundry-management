@@ -1,13 +1,15 @@
 'use client'
 
 import React from 'react'
-import { ORDERS, ORDER_STATUS_COLORS } from '@/lib/mock-data'
+import { ORDER_STATUS_COLORS } from '@/lib/mock-data'
+import { useOrders } from '@/lib/order-context'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { RotateCcw, Inbox } from 'lucide-react'
 
 export default function HistoryPage() {
-  const allOrders = [...ORDERS].sort(
+  const { orders } = useOrders()
+  const allOrders = [...orders].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   )
 
@@ -20,21 +22,21 @@ export default function HistoryPage() {
         </div>
 
         {allOrders.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 bg-card rounded-xl border border-border">
+          <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl border border-border shadow-sm">
             <Inbox className="h-10 w-10 text-muted-foreground mb-3" />
             <p className="text-sm text-muted-foreground">No orders yet</p>
           </div>
         ) : (
           <>
-            <div className="hidden md:block border border-border rounded-lg overflow-hidden bg-card">
+            <div className="hidden md:block border border-border rounded-lg overflow-hidden bg-white shadow-sm">
               <table className="w-full">
                 <thead className="bg-muted border-b border-border">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Order ID</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Date</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Amount</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Status</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Action</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Order ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Amount</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -64,7 +66,7 @@ export default function HistoryPage() {
 
             <div className="md:hidden space-y-4">
               {allOrders.map((order) => (
-                <Card key={order.id} className="bg-card border-border">
+                <Card key={order.id} className="bg-white border-border shadow-sm">
                   <CardHeader className="pb-3">
                     <div className="flex justify-between items-start mb-2">
                       <CardTitle className="text-base font-mono">{order.id}</CardTitle>

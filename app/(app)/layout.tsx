@@ -1,6 +1,7 @@
 'use client'
 
 import { AuthProvider, useAuth } from '@/lib/auth-context'
+import { OrderProvider } from '@/lib/order-context'
 import React from 'react'
 import { AppNavigation } from '@/components/app-navigation'
 
@@ -18,7 +19,9 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      <AppLayoutContent>{children}</AppLayoutContent>
+      <OrderProvider>
+        <AppLayoutContent>{children}</AppLayoutContent>
+      </OrderProvider>
     </AuthProvider>
   )
 }

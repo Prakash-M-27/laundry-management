@@ -1,15 +1,17 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ORDERS, ORDER_STATUS_COLORS } from '@/lib/mock-data'
+import { ORDER_STATUS_COLORS } from '@/lib/mock-data'
+import { useOrders } from '@/lib/order-context'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { OrderStepper } from '@/components/order-stepper'
 import { ChevronDown, ChevronUp, Package } from 'lucide-react'
 
 export default function OrdersPage() {
-  const [expandedOrder, setExpandedOrder] = useState<string | null>(ORDERS[0]?.id || null)
+  const { orders } = useOrders()
+  const [expandedOrder, setExpandedOrder] = useState<string | null>(orders[0]?.id || null)
 
-  const activeOrders = ORDERS.filter((o) => o.status !== 'completed')
+  const activeOrders = orders.filter((o) => o.status !== 'completed')
 
   return (
     <div className="h-full overflow-y-auto">
@@ -24,7 +26,7 @@ export default function OrdersPage() {
             {activeOrders.map((order) => (
               <Card
                 key={order.id}
-                className="bg-card border-border cursor-pointer hover:shadow-lg transition-shadow"
+                className="bg-white border-border shadow-sm cursor-pointer hover:shadow-md transition-shadow"
                 onClick={() =>
                   setExpandedOrder(
                     expandedOrder === order.id ? null : order.id
@@ -108,7 +110,7 @@ export default function OrdersPage() {
             ))}
           </div>
         ) : (
-          <Card className="bg-card border-border text-center py-12">
+          <Card className="bg-white border-border shadow-sm text-center py-12">
             <CardContent>
               <Package className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
               <p className="text-foreground font-medium mb-1">No active orders</p>

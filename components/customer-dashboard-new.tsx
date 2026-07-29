@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { ORDERS } from '@/lib/mock-data'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
+import { useOrders } from '@/lib/order-context'
 import { CheckCircle, Clock, Zap, Package, Search, Inbox, ArrowUpRight, Hash } from 'lucide-react'
 
 interface CustomerDashboardNewProps {
@@ -13,11 +13,11 @@ interface CustomerDashboardNewProps {
 const STATUS_STEPS = ['booked', 'received', 'processing', 'ready', 'completed'] as const
 
 const BADGE_COLORS: Record<string, string> = {
-  booked: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20',
-  received: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20',
-  processing: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20',
-  ready: 'bg-primary text-white border-0',
-  completed: 'bg-muted text-muted-foreground border border-border',
+  booked: 'bg-gray-100 text-gray-700 border border-gray-200',
+  received: 'bg-blue-50 text-blue-700 border border-blue-200',
+  processing: 'bg-amber-50 text-amber-700 border border-amber-200',
+  ready: 'bg-indigo-50 text-indigo-700 border border-indigo-200',
+  completed: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
 }
 
 function OrderProgressBar({ status }: { status: string }) {
@@ -29,7 +29,7 @@ function OrderProgressBar({ status }: { status: string }) {
           <div
             className={`h-1.5 w-full rounded-full transition-all duration-300 ${
               i <= currentIndex
-                ? 'bg-gradient-to-r from-[#FF6A00] to-[#FF7A1A]'
+                ? 'bg-gradient-to-r from-primary to-blue-500'
                 : 'bg-muted'
             }`}
           />
@@ -57,8 +57,9 @@ const STAT_CARDS = [
 export function CustomerDashboardNew({ customerId }: CustomerDashboardNewProps) {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState<string>('all')
+  const { orders } = useOrders()
 
-  const customerOrders = ORDERS.filter(order => order.customerId === customerId)
+  const customerOrders = orders.filter(order => order.customerId === customerId)
 
   const statusCounts = {
     all: customerOrders.length,
@@ -81,15 +82,15 @@ export function CustomerDashboardNew({ customerId }: CustomerDashboardNewProps) 
       <div className="grid grid-cols-4 gap-3">
         {STAT_CARDS.map(item => {
           const isSelected = filterStatus === item.key
-          const showOrange = item.actionable && statusCounts[item.key] > 0
+          const showAccent = item.actionable && statusCounts[item.key] > 0
           return (
             <button
               key={item.key}
               onClick={() => setFilterStatus(item.key)}
               className={`group p-3 rounded-xl border text-center transition-all ${
                 isSelected
-                  ? 'border-primary bg-card shadow-sm'
-                  : 'border-border bg-card hover:border-muted-foreground/30'
+                  ? 'border-primary bg-primary/5 shadow-sm'
+                  : 'border-border bg-white hover:border-muted-foreground/30 shadow-sm'
               }`}
             >
               <div className={`mx-auto w-7 h-7 rounded-lg flex items-center justify-center mb-2 transition-all ${
@@ -100,7 +101,7 @@ export function CustomerDashboardNew({ customerId }: CustomerDashboardNewProps) 
                 {item.icon}
               </div>
               <p className={`text-xl font-bold tracking-tight transition-colors ${
-                isSelected || showOrange ? 'text-primary' : 'text-foreground'
+                isSelected || showAccent ? 'text-primary' : 'text-foreground'
               }`}>
                 {statusCounts[item.key]}
               </p>
@@ -120,13 +121,13 @@ export function CustomerDashboardNew({ customerId }: CustomerDashboardNewProps) 
             placeholder="Search by order ID or date…"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-border bg-card text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-primary transition"
+            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition"
           />
         </div>
         <select
           value={filterStatus}
           onChange={e => setFilterStatus(e.target.value)}
-          className="px-3 py-2.5 rounded-xl border border-border bg-card text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-primary transition"
+          className="px-3 py-2.5 rounded-xl border border-border bg-white text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition"
         >
           <option value="all">All Status</option>
           <option value="booked">Booked</option>
@@ -139,7 +140,7 @@ export function CustomerDashboardNew({ customerId }: CustomerDashboardNewProps) 
 
       <div className="space-y-3">
         {filteredOrders.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 bg-card rounded-xl border border-border">
+          <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl border border-border shadow-sm">
             <div className="h-12 w-12 rounded-xl bg-muted flex items-center justify-center mb-4">
               <Inbox className="h-6 w-6 text-muted-foreground" />
             </div>
@@ -152,7 +153,7 @@ export function CustomerDashboardNew({ customerId }: CustomerDashboardNewProps) 
           </div>
         ) : (
           filteredOrders.map(order => (
-            <Card key={order.id} className="p-4 bg-card border-border hover:shadow-md hover:border-muted-foreground/20 transition-all">
+            <Card key={order.id} className="p-4 bg-white border-border shadow-sm hover:shadow-md hover:border-muted-foreground/20 transition-all">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -198,7 +199,7 @@ export function CustomerDashboardNew({ customerId }: CustomerDashboardNewProps) 
               </div>
 
               {order.employeeNotes && (
-                <div className="mt-3.5 px-3.5 py-2.5 bg-muted/50 rounded-lg border border-border/50">
+                <div className="mt-3.5 px-3.5 py-2.5 bg-muted rounded-lg border border-border">
                   <p className="text-xs text-muted-foreground font-medium mb-0.5">Note from team</p>
                   <p className="text-xs text-foreground leading-relaxed">{order.employeeNotes}</p>
                 </div>

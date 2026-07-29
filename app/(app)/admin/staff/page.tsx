@@ -67,7 +67,7 @@ export default function StaffPage() {
         </div>
 
         {showForm && (
-          <Card className="bg-card border-border">
+          <Card className="bg-white border-border shadow-sm">
             <CardHeader>
               <CardTitle>{editingId ? 'Edit Staff Member' : 'Add New Staff Member'}</CardTitle>
             </CardHeader>
@@ -75,15 +75,15 @@ export default function StaffPage() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">Name</label>
-                  <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring" required />
+                  <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">Phone</label>
-                  <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring" required />
+                  <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">Role</label>
-                  <select value={formData.role} onChange={(e) => setFormData({ ...formData, role: e.target.value as 'pickup' | 'delivery' | 'processing' })} className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
+                  <select value={formData.role} onChange={(e) => setFormData({ ...formData, role: e.target.value as 'pickup' | 'delivery' | 'processing' })} className="w-full px-4 py-2 rounded-lg border border-input bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
                     <option value="pickup">Pickup</option>
                     <option value="delivery">Delivery</option>
                     <option value="processing">Processing</option>
@@ -98,17 +98,17 @@ export default function StaffPage() {
           </Card>
         )}
 
-        <div className="hidden md:block border border-border rounded-lg overflow-hidden bg-card">
+        <div className="hidden md:block border border-border rounded-lg overflow-hidden bg-white shadow-sm">
           <table className="w-full">
             <thead className="bg-muted border-b border-border">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Name</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Phone</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Role</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Status</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Orders</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Rating</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Phone</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Role</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Orders</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Rating</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -119,7 +119,7 @@ export default function StaffPage() {
                   </td>
                   <td className="px-6 py-4 text-foreground">{member.phone}</td>
                   <td className="px-6 py-4">
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-muted text-foreground capitalize">
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-muted text-foreground capitalize border border-border">
                       {member.role}
                     </span>
                   </td>
@@ -128,8 +128,8 @@ export default function StaffPage() {
                       onClick={() => toggleStatus(member.id)}
                       className={`px-3 py-1 rounded-full text-xs font-semibold capitalize cursor-pointer transition-colors ${
                         member.status === 'available'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-yellow-100 text-yellow-800'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : 'bg-amber-50 text-amber-700 border border-amber-200'
                       }`}
                     >
                       {member.status}
@@ -138,7 +138,7 @@ export default function StaffPage() {
                   <td className="px-6 py-4 text-foreground">{member.assignedOrders.length} orders</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                       <span className="text-foreground font-semibold">{member.rating.toFixed(1)}</span>
                     </div>
                   </td>
@@ -160,12 +160,12 @@ export default function StaffPage() {
 
         <div className="md:hidden space-y-4">
           {staff.map((member) => (
-            <Card key={member.id} className="bg-card border-border">
+            <Card key={member.id} className="bg-white border-border shadow-sm">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between mb-2">
                   <CardTitle className="text-base">{member.name}</CardTitle>
                   <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                     <span className="text-sm font-semibold text-foreground">{member.rating.toFixed(1)}</span>
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function StaffPage() {
                     <button
                       onClick={() => toggleStatus(member.id)}
                       className={`px-2 py-0.5 rounded text-xs font-semibold capitalize cursor-pointer transition-colors inline-block ${
-                        member.status === 'available' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                        member.status === 'available' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
                       }`}
                     >
                       {member.status}
